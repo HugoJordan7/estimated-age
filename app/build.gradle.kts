@@ -50,6 +50,13 @@ android {
 }
 
 dependencies {
+    val koin_version = "3.5.0"
+    val retrofit_version = "2.9.0"
+
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
+    implementation ("io.insert-koin:koin-android:$koin_version")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

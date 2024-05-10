@@ -1,8 +1,9 @@
-package com.example.estimatedage
+package com.example.estimatedage.feature.main.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    App()
                 }
             }
         }
@@ -30,17 +31,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun App() {
+    Box(modifier = Modifier.fillMaxSize()
+
+    ) {
+
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     EstimatedAgeTheme {
-        Greeting("Android")
+        App()
     }
 }
