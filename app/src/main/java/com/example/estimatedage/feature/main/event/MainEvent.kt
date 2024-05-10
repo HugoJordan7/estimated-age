@@ -8,6 +8,7 @@ sealed class MainEvent {
 }
 
 data class MainState(
+    val lastEvent: MainEvent? = null,
     val name: String = "",
     val age: Int? = null,
     val isFailure: Boolean = false,
