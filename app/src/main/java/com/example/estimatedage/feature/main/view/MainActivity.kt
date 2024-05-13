@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -18,29 +17,26 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.estimatedage.App
 import com.example.estimatedage.R
+import com.example.estimatedage.feature.main.viewModel.MainViewModel
 import com.example.estimatedage.ui.theme.EstimatedAgeTheme
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    var name: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
-    var textResult: MutableState<String> = mutableStateOf("")
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +56,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun App() {
+        val name = viewModel.state.value.name
+        val age = viewModel.state.value.age
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -72,9 +70,9 @@ class MainActivity : ComponentActivity() {
                     .height(50.dp)
             ){
                 TextField(
-                    value = name.value,
-                    onValueChange = { text ->
-                        name.value = text
+                    value = name,
+                    onValueChange = { textChanged ->
+                        viewModel.state.value.name = textChanged
                     },
                     modifier = Modifier
                         .width(320.dp)
@@ -95,13 +93,13 @@ class MainActivity : ComponentActivity() {
                         .aspectRatio(1f)
                         .padding(10.dp)
                         .clickable {
-                            textResult.value = name.value.text
+                            viewModel.findPerson(name)
                         }
                 )
             }
 
             Text(
-                text = textResult.value,
+                text = if(name == "") "" else getString(R.string.age_result, name, age),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
