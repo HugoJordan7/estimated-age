@@ -1,6 +1,7 @@
 package com.example.estimatedage.feature.main.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -21,6 +22,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -37,6 +40,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModel()
+    private var text: MutableState<String> = mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +60,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun App() {
-        val name = viewModel.state.value.name
-        val age = viewModel.state.value.age
+        val state = viewModel.state.value
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -70,9 +73,9 @@ class MainActivity : ComponentActivity() {
                     .height(50.dp)
             ){
                 TextField(
-                    value = name,
-                    onValueChange = { textChanged ->
-                        viewModel.state.value.name = textChanged
+                    value = text.value,
+                    onValueChange = {
+                        text.value = it
                     },
                     modifier = Modifier
                         .width(320.dp)
@@ -93,13 +96,14 @@ class MainActivity : ComponentActivity() {
                         .aspectRatio(1f)
                         .padding(10.dp)
                         .clickable {
-                            viewModel.findPerson(name)
+                            viewModel.findPerson(text.value)
                         }
                 )
             }
-
+            val name = viewModel.state.value.person?.name
+            val age = viewModel.state.value.person?.age
             Text(
-                text = if(name == "") "" else getString(R.string.age_result, name, age),
+                text = if(name == null) "" else getString(R.string.age_result,name,age),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()

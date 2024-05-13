@@ -9,8 +9,7 @@ class MainReducer: Reducer<MainState,MainEvent> {
         when(event){
             is MainEvent.ShowPerson -> state.copy(
                 lastEvent = event,
-                name = event.person.name,
-                age = event.person.age,
+                person = event.person,
                 isFailure = false
             )
             is MainEvent.Error -> state.copy(

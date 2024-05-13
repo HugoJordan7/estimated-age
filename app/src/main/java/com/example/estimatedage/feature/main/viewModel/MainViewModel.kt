@@ -1,6 +1,9 @@
 package com.example.estimatedage.feature.main.viewModel
 
+import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.example.estimatedage.R
 import com.example.estimatedage.base.BaseViewModel
 import com.example.estimatedage.feature.main.event.MainEvent
 import com.example.estimatedage.feature.main.event.MainEvent.*
@@ -19,6 +22,7 @@ class MainViewModel(
     fun findPerson(name: String){
         val callback = object : PersonCallback{
             override fun onSuccess(person: Person) {
+
                 updateState(ShowPerson(person))
             }
             override fun onFailure(message: String) {

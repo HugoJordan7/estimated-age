@@ -1,5 +1,6 @@
 package com.example.estimatedage.source.repository
 
+import android.util.Log
 import com.example.estimatedage.source.PersonService
 import com.example.estimatedage.util.PersonCallback
 
